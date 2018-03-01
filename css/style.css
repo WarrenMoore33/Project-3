@@ -116,6 +116,10 @@ button:hover {
     color: green;
     font-weight: bold;
 }
+.validationText {
+    color: red;
+    font-weight: bold;
+}
 /* ================================= 
   Page Styles
 ==================================== */

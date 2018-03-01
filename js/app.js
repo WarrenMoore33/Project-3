@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {//loading the DOM before we mess with it    
     const form = document.getElementById('registrar');
-    const name = document.querySelector('#name');    
+    const name = document.querySelector('#name');  
+    const nameLabel = name.previousElementSibling;  
 
     const jobRolesFieldset = document.querySelectorAll("fieldset")[0];
     const jobSelect = document.querySelector("#title");  
@@ -160,10 +161,7 @@ function activityCheck() {
             sectionBitCoin.style.display = "none";
         }
 }
-// If any of the following validation errors exist, prevent the user from submitting the form:
-// Name field can't be blank
-// Email field must be a validly formatted e-mail address (you don't have to check that it's a real e-mail address, just that it's formatted like one: dave@teamtreehouse.com for example.
-// Must select at least one checkbox under the "Register for Activities" section of the form.
+
 // If the selected payment option is "Credit Card," make sure the user has supplied a credit card number, a zip code, and a 3 number CVV value before the form can be submitted.
 // Credit card field should only accept a number between 13 and 16 digits
 // The zipcode field should accept a 5-digit number
@@ -176,26 +174,57 @@ function activityCheck() {
 
     form.addEventListener('submit',(e)=> {
         let userName = name.value;
-        let validated = true;
+        let validated = false;
         let nameValidation = false;
         let emailValidation = false;
-        
+        let checkboxValidation = false;
+        let creditcardValidation = false;
+
 //NAME FIELD
-        if(userName.length < 1) {           
-            nameValidation = false;
-        }
-        else {
-            nameValidation = true;
-        }
+    if(userName.length > 0) {           
+        nameValidation = true;
+        name.style.borderColor = "black";
+        nameLabel.innerHTML = "Name:"
+    }
+    else {
+        nameValidation = false;
+        name.style.borderColor = "red";
+        name.focus();
+        nameLabel.innerHTML = 'Name: <span class="validationText">Please enter your name before submitting.</span>'
+    }
 ///////////////////////////////////////
-//
+
+//EMAIL FIELD
+
+///////////////////////////////////////
+//CHECKBOX FIELD
+if(calculateTotal() > 0) {
+    checkboxValidation = true;
+}
+else {
+    checkboxValidation = false;
+    
+}
+///////////////////////////////////////
+//CREDIT CARD FIELD
+if(paymentSelect.value === "credit card"){
+    
+}
+else if(paymentSelect.value === "select_method") {
+    creditcardValidation = false;
+}
+else {
+    creditcardValidation = true;
+}
+///////////////////////////////////////
+
         
 
-        if(nameValidation) {//If all conditions are legit, you may submit
+        if(nameValidation && checkboxValidation && creditcardValidation) {//If all conditions are legit, you may submit
             validated = true;
         }
         else {
-            validated = false;//If even 1 condition is so bare? You aint goin nowhere
+            validated = false;//If even 1 condition shows bare? You aint goin nowhere
         }
         console.log(userName.length);
         if(!validated) {
