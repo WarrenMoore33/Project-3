@@ -139,23 +139,23 @@ function activityCheck() {
     }
 //  Credit card, paypal, bitcoin hidden or shown based on payment selection
     paymentSelect.onchange = function otherJobShow(e) { 
-        if(e.target.value ==="credit card") {
+        if(e.target.value ==="credit card") { //show credit card
             sectionCreditCard.style.display = "block";
             sectionPayPal.style.display = "none";
             sectionBitCoin.style.display = "none";
         }
-        else if(e.target.value ==="paypal") {
+        else if(e.target.value ==="paypal") { //show paypal
             sectionCreditCard.style.display = "none";
             sectionPayPal.style.display = "block";
             sectionBitCoin.style.display = "none";
         }
-        else if(e.target.value ==="bitcoin") {
+        else if(e.target.value ==="bitcoin") { //show bitcoin
             sectionCreditCard.style.display = "none";
             sectionPayPal.style.display = "none";
             sectionBitCoin.style.display = "block";
         }
         else {
-            sectionCreditCard.style.display = "none";
+            sectionCreditCard.style.display = "none";//hides other div if payment selection is not selected
             sectionPayPal.style.display = "none";
             sectionBitCoin.style.display = "none";
         }
@@ -177,11 +177,25 @@ function activityCheck() {
     form.addEventListener('submit',(e)=> {
         let userName = name.value;
         let validated = true;
-        if(userName.length < 1) {
-            validated = false;
+        let nameValidation = false;
+        let emailValidation = false;
+        
+//NAME FIELD
+        if(userName.length < 1) {           
+            nameValidation = false;
         }
         else {
+            nameValidation = true;
+        }
+///////////////////////////////////////
+//
+        
+
+        if(nameValidation) {//If all conditions are legit, you may submit
             validated = true;
+        }
+        else {
+            validated = false;//If even 1 condition is so bare? You aint goin nowhere
         }
         console.log(userName.length);
         if(!validated) {
