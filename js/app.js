@@ -224,28 +224,67 @@ const cvvValue = cvv.value;
 const cvvLabel = cvv.previousElementSibling;
 //PAYMENT FIELD
 if(paymentSelect.value === "credit card"){//if credit card selected...
-    if(cardValue.length >= 13 && cardValue.length <= 16 && zipValue.length === 5 && cvvValue.length === 3) {
+    
+    if(cardValue.length >= 13 && cardValue.length <= 16 && zipValue.length === 5 && cvvValue.length === 3 && !isNaN(cardValue) && !isNaN(zipValue) && !isNaN(cvvValue)) {
         creditcardValidation = true;
     }
-    if(cardValue.length <13 || cardValue.length > 16) {
-        creditcardValidation = false;
+    if(cardValue.length <13 || cardValue.length > 16 || isNaN(cardValue)) {//card number validation
+        creditcardValidation = false;        
+        if(cardValue.length === 0) {
+            cardNumLabel.innerHTML = 'Card Number: <span class="validationText small">*Please enter a card number</span>';
+        cardNum.style.borderColor = "red";
+        }
+        else if (isNaN(cardValue)){
+            cardNumLabel.innerHTML = 'Card Number: <span class="validationText small">*Please enter numerical value</span>';
+        cardNum.style.borderColor = "red";
+        }
+        else {
         cardNumLabel.innerHTML = 'Card Number: <span class="validationText small">*Must be between 13-16 digits</span>';
         cardNum.style.borderColor = "red";
+        }
+        if(nameValidation && checkboxValidation){
+            cardNum.focus();
+        }       
     }
     else {
         cardNumLabel.innerHTML = 'Card Number:'
         cardNum.style.borderColor = "green";
     }
 
-    if(zipValue.length !== 5) {
+    if(zipValue.length !== 5) {//zip code validation
         creditcardValidation = false;
-        cardNumLabel.innerHTML = 'Zip Code: <span class="validationText small">*Must be 5 digits</span>';
-        cardNum.style.borderColor = "red";
+        zipCodeLabel.innerHTML = 'Zip Code: <span class="validationText small">*Invalid Zip</span>';
+        zipCode.style.borderColor = "red";
+        if(nameValidation && checkboxValidation && cardValue.length >= 13 && cardValue.length <= 16){
+            zipCode.focus();
+        }
     }
     else {
-        cardNumLabel.innerHTML = 'Zip Code:'
-        cardNum.style.borderColor = "green";
+        zipCodeLabel.innerHTML = 'Zip Code:'
+        zipCode.style.borderColor = "green";
     }
+
+    if(cvvValue.length !== 3) {//cvv value validation
+        creditcardValidation = false;
+        cvvLabel.innerHTML = 'CVV: <span class="validationText small">*Must be 3 digits</span>';
+        cvv.style.borderColor = "red";
+        if(nameValidation && checkboxValidation && cardValue.length >= 13 && cardValue.length <= 16 && zipValue.length === 5){
+            cvv.focus();
+        }
+    }
+    else {
+        cvvLabel.innerHTML = 'CVV:'
+        cvv.style.borderColor = "green";
+    }
+    
+    if(isNaN(zipValue)){
+        zipCodeLabel.innerHTML = 'Zip Code: <span class="validationText small">*Invalid Zip</span>';
+    zipCode.style.borderColor = "red";
+    }
+    if(isNaN(cvvValue)){
+        cvvLabel.innerHTML = 'CVV: <span class="validationText small">*Must use digits</span>';
+    cvv.style.borderColor = "red";
+    }    
 }
 else if(paymentSelect.value === "select_method") {
     creditcardValidation = false;
