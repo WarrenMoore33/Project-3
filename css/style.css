@@ -126,7 +126,7 @@ button:hover {
 	font-size: 12px;
 	
 }
-:valid {
+#mail:valid {
     border-color: green;
 }
 /* ================================= 
