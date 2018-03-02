@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {//loading the DOM before we
     const colorList = colorDrop.children;
 
     const activityFieldset = document.querySelector(".activities");
+    const activityLabel = document.querySelector(".activities legend");
     const activityCheckbox = document.querySelectorAll("input[type=checkbox]");
     const priceSpan = document.querySelector("#priceSpan");
 
@@ -169,7 +170,6 @@ function activityCheck() {
 
 
 
-
 //  Submit button doesn't reload page until all fields are legit
 
     form.addEventListener('submit',(e)=> {
@@ -181,16 +181,16 @@ function activityCheck() {
         let creditcardValidation = false;
 
 //NAME FIELD
-    if(userName.length > 0) {           
+    if(userName.length > 0) {//if there is a name present          
         nameValidation = true;
-        name.style.borderColor = "black";
+        name.style.borderColor = "green";
         nameLabel.innerHTML = "Name:"
     }
-    else {
+    else {//if there is no name present
         nameValidation = false;
         name.style.borderColor = "red";
         name.focus();
-        nameLabel.innerHTML = 'Name: <span class="validationText">Please enter your name before submitting.</span>'
+        nameLabel.innerHTML = 'Name: <span class="validationText">*Please enter your name before submitting.</span>'
     }
 ///////////////////////////////////////
 
@@ -198,17 +198,54 @@ function activityCheck() {
 
 ///////////////////////////////////////
 //CHECKBOX FIELD
-if(calculateTotal() > 0) {
+if(calculateTotal() > 0) {//if the total price is not 0...
     checkboxValidation = true;
+    activityLabel.innerHTML = "Register for Activities"
 }
-else {
-    checkboxValidation = false;
-    
+else {//if there is no total price...
+    checkboxValidation = false;    
+    activityLabel.innerHTML = 'Register for Activities <span class="validationText">*Please select at least one activity before submitting.</span>'    
+    if(!nameValidation){
+        name.focus();
+    }
+    else {
+        activityLabel.focus();
+    }
 }
 ///////////////////////////////////////
-//CREDIT CARD FIELD
-if(paymentSelect.value === "credit card"){
-    
+const cardNum = document.querySelector("#cc-num");
+const cardValue = cardNum.value;
+const cardNumLabel = cardNum.previousElementSibling;
+const zipCode = document.querySelector("#zip");
+const zipValue = zipCode.value;
+const zipCodeLabel = zipCode.previousElementSibling;
+const cvv = document.querySelector("#cvv");
+const cvvValue = cvv.value;
+const cvvLabel = cvv.previousElementSibling;
+//PAYMENT FIELD
+if(paymentSelect.value === "credit card"){//if credit card selected...
+    if(cardValue.length >= 13 && cardValue.length <= 16 && zipValue.length === 5 && cvvValue.length === 3) {
+        creditcardValidation = true;
+    }
+    if(cardValue.length <13 || cardValue.length > 16) {
+        creditcardValidation = false;
+        cardNumLabel.innerHTML = 'Card Number: <span class="validationText small">*Must be between 13-16 digits</span>';
+        cardNum.style.borderColor = "red";
+    }
+    else {
+        cardNumLabel.innerHTML = 'Card Number:'
+        cardNum.style.borderColor = "green";
+    }
+
+    if(zipValue.length !== 5) {
+        creditcardValidation = false;
+        cardNumLabel.innerHTML = 'Zip Code: <span class="validationText small">*Must be 5 digits</span>';
+        cardNum.style.borderColor = "red";
+    }
+    else {
+        cardNumLabel.innerHTML = 'Zip Code:'
+        cardNum.style.borderColor = "green";
+    }
 }
 else if(paymentSelect.value === "select_method") {
     creditcardValidation = false;

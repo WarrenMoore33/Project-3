@@ -117,8 +117,16 @@ button:hover {
     font-weight: bold;
 }
 .validationText {
-    color: red;
+	color: firebrick;
     font-weight: bold;
+    font-style: italic;
+    font-size: 16px;
+}
+.small {
+    font-size: 12px;
+}
+:valid {
+    border-color: green;
 }
 /* ================================= 
   Page Styles
