@@ -20,12 +20,16 @@ document.addEventListener('DOMContentLoaded', () => {//loading the DOM before we
     const priceSpan = document.querySelector("#priceSpan");
 
     const paymentSelect = document.querySelector("#payment");
+    const paymentLabel = paymentSelect.previousElementSibling;
     const sectionCreditCard = document.querySelector("#credit-card");
     const sectionPayPal = sectionCreditCard.nextElementSibling;
     const sectionBitCoin = sectionPayPal.nextElementSibling;
-             
+    
+    // INITIAL ON LOAD HAPPENINGS
     name.focus(); //Focusing on the name field 1st and foremost
     paymentSelect.value = "credit card" //payment field starts on credit card
+    sectionPayPal.style.display = "none";//hide paypal
+    sectionBitCoin.style.display = "none";//hide bitcoin
 
 //  ”Job Role” section of the form
 //  Showing the other box when other is selected
@@ -145,33 +149,29 @@ function activityCheck() {
             sectionCreditCard.style.display = "block";
             sectionPayPal.style.display = "none";
             sectionBitCoin.style.display = "none";
+            paymentLabel.innerHTML = 'I&#8217;m going to pay with:';
         }
         else if(e.target.value ==="paypal") { //show paypal
             sectionCreditCard.style.display = "none";
             sectionPayPal.style.display = "block";
             sectionBitCoin.style.display = "none";
+            paymentLabel.innerHTML = 'I&#8217;m going to pay with:';
         }
         else if(e.target.value ==="bitcoin") { //show bitcoin
             sectionCreditCard.style.display = "none";
             sectionPayPal.style.display = "none";
             sectionBitCoin.style.display = "block";
+            paymentLabel.innerHTML = 'I&#8217;m going to pay with:';
         }
         else {
             sectionCreditCard.style.display = "none";//hides other div if payment selection is not selected
             sectionPayPal.style.display = "none";
             sectionBitCoin.style.display = "none";
+            paymentLabel.innerHTML = 'I&#8217;m going to pay with: <span class="validationText">*Please Select a Payment Method.</span>';
         }
 }
 
-// If the selected payment option is "Credit Card," make sure the user has supplied a credit card number, a zip code, and a 3 number CVV value before the form can be submitted.
-// Credit card field should only accept a number between 13 and 16 digits
-// The zipcode field should accept a 5-digit number
-// The CVV should only accept a number that is exactly 3 digits long
-
-
-
 //  Submit button doesn't reload page until all fields are legit
-
     form.addEventListener('submit',(e)=> {
         let userName = name.value;
         let validated = false;
@@ -179,8 +179,7 @@ function activityCheck() {
         let emailValidation = false;
         let checkboxValidation = false;
         let creditcardValidation = false;
-
-//NAME FIELD
+//  NAME FIELD
     if(userName.length > 0) {//if there is a name present          
         nameValidation = true;
         name.style.borderColor = "green";
@@ -224,7 +223,6 @@ const cvvValue = cvv.value;
 const cvvLabel = cvv.previousElementSibling;
 //PAYMENT FIELD
 if(paymentSelect.value === "credit card"){//if credit card selected...
-    
     if(cardValue.length >= 13 && cardValue.length <= 16 && zipValue.length === 5 && cvvValue.length === 3 && !isNaN(cardValue) && !isNaN(zipValue) && !isNaN(cvvValue)) {
         creditcardValidation = true;
     }
@@ -288,8 +286,11 @@ if(paymentSelect.value === "credit card"){//if credit card selected...
 }
 else if(paymentSelect.value === "select_method") {
     creditcardValidation = false;
+    if(nameValidation && checkboxValidation){
+        paymentSelect.focus();
+    }
 }
-else {
+else {    
     creditcardValidation = true;
 }
 ///////////////////////////////////////
