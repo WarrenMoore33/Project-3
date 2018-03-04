@@ -1,7 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {//loading the DOM before we mess with it    
     const form = document.getElementById('registrar');
     const name = document.querySelector('#name');  
+    const email = document.querySelector("#mail");
     const nameLabel = name.previousElementSibling;  
+    const emailLabel = email.previousElementSibling;
 
     const jobRolesFieldset = document.querySelectorAll("fieldset")[0];
     const jobSelect = document.querySelector("#title");  
@@ -192,8 +194,28 @@ function activityCheck() {
         nameLabel.innerHTML = 'Name: <span class="validationText">*Please enter your name before submitting.</span>'
     }
 ///////////////////////////////////////
-
 //EMAIL FIELD
+// "email === string + at + string2 + com"
+
+let emailValue = email.value;
+
+
+if(/(.+)@(.+){2,}\.(.+){2,}/.test(emailValue)){
+    emailValidation = true;
+    email.style.borderColor = "green";
+    emailLabel.innerHTML = "Email:";
+} 
+else {
+    emailValidation = false;
+    email.style.borderColor = "red";
+    emailLabel.innerHTML = 'Email: <span class="validationText">*Please enter valid email. ex(email@domain.com)</span>';
+    if(!nameValidation){
+        name.focus();
+    }
+    else {
+        email.focus();
+    }
+}
 
 ///////////////////////////////////////
 //CHECKBOX FIELD
@@ -206,6 +228,9 @@ else {//if there is no total price...
     activityLabel.innerHTML = 'Register for Activities <span class="validationText">*Please select at least one activity before submitting.</span>'    
     if(!nameValidation){
         name.focus();
+    }
+    else if (!emailValidation){
+        email.focus();
     }
     else {
         activityLabel.focus();
@@ -240,7 +265,7 @@ if(paymentSelect.value === "credit card"){//if credit card selected...
         cardNumLabel.innerHTML = 'Card Number: <span class="validationText small">*Must be between 13-16 digits</span>';
         cardNum.style.borderColor = "red";
         }
-        if(nameValidation && checkboxValidation){
+        if(nameValidation && emailValidation && checkboxValidation){
             cardNum.focus();
         }       
     }
@@ -253,7 +278,7 @@ if(paymentSelect.value === "credit card"){//if credit card selected...
         creditcardValidation = false;
         zipCodeLabel.innerHTML = 'Zip Code: <span class="validationText small">*Invalid Zip</span>';
         zipCode.style.borderColor = "red";
-        if(nameValidation && checkboxValidation && cardValue.length >= 13 && cardValue.length <= 16){
+        if(nameValidation && emailValidation && checkboxValidation && cardValue.length >= 13 && cardValue.length <= 16 && !isNaN(cardValue.value)){
             zipCode.focus();
         }
     }
@@ -266,7 +291,7 @@ if(paymentSelect.value === "credit card"){//if credit card selected...
         creditcardValidation = false;
         cvvLabel.innerHTML = 'CVV: <span class="validationText small">*Must be 3 digits</span>';
         cvv.style.borderColor = "red";
-        if(nameValidation && checkboxValidation && cardValue.length >= 13 && cardValue.length <= 16 && zipValue.length === 5){
+        if(nameValidation && emailValidation && checkboxValidation && cardValue.length >= 13 && cardValue.length <= 16 && !isNaN(cardValue.value) && zipValue.length === 5){
             cvv.focus();
         }
     }
@@ -297,7 +322,7 @@ else {
 
         
 
-        if(nameValidation && checkboxValidation && creditcardValidation) {//If all conditions are legit, you may submit
+        if(nameValidation && emailValidation && checkboxValidation && creditcardValidation) {//If all conditions are legit, you may submit
             validated = true;
         }
         else {
