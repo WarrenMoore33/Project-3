@@ -278,7 +278,7 @@ if(paymentSelect.value === "credit card"){//if credit card selected...
         creditcardValidation = false;
         zipCodeLabel.innerHTML = 'Zip Code: <span class="validationText small">*Invalid Zip</span>';
         zipCode.style.borderColor = "red";
-        if(nameValidation && emailValidation && checkboxValidation && cardValue.length >= 13 && cardValue.length <= 16 && !isNaN(cardValue.value)){
+        if(nameValidation && emailValidation && checkboxValidation && cardValue.length >= 13 && cardValue.length <= 16 && !isNaN(cardValue)){
             zipCode.focus();
         }
     }
@@ -291,7 +291,7 @@ if(paymentSelect.value === "credit card"){//if credit card selected...
         creditcardValidation = false;
         cvvLabel.innerHTML = 'CVV: <span class="validationText small">*Must be 3 digits</span>';
         cvv.style.borderColor = "red";
-        if(nameValidation && emailValidation && checkboxValidation && cardValue.length >= 13 && cardValue.length <= 16 && !isNaN(cardValue.value) && zipValue.length === 5){
+        if(nameValidation && emailValidation && checkboxValidation && cardValue.length >= 13 && cardValue.length <= 16 && !isNaN(cardValue) && zipValue.length === 5 && !isNaN(zipValue)){
             cvv.focus();
         }
     }
